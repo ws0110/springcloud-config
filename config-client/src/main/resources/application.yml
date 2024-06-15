@@ -1,0 +1,26 @@
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: app2 # Config Repository의 application명
+  profiles:
+    active: dev # Config Repository의 profile
+  config:
+    import: optional:configserver:http://localhost:8888 # config server 접속 정보 설정 "optional:" 제거할 경우 config server 접속 실패 시 에러
+
+
+# @RefreshScope 통한 설정 동적 업데이트를 위한 Actuator Refresh 설정
+management:
+  endpoints:
+    web:
+      # base-path: /actuator
+      exposure:
+        include: "refresh"
+
+
+
+# 테스트
+# curl -X GET "http://localhost:8080/config/app1"
+# curl -X POST "http://localhost:8080/actuator/refresh"
